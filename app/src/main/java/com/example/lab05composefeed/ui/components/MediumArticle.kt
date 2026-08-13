@@ -5,12 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,75 +13,54 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lab05composefeed.model.Article
+import com.example.lab05composefeed.ui.theme.GrayGeneralText
+
 
 @Composable
-fun MediumArticle(
+fun MediumArticle (
     article: Article,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Author row
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically ,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                //Article name
                 Box(
                     modifier = Modifier
                         .size(20.dp)
                         .clip(CircleShape)
                         .background(Color(article.circleColor))
-                )
+                ) {
+
+                }
                 Text(
                     text = article.name,
-                    fontSize = 12.sp,
-                    color = Color.DarkGray
+                    color = GrayGeneralText
                 )
             }
-            
-            // Title
             Text(
                 text = article.title,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                fontSize = 24.sp
             )
-            
-            // Summary
             Text(
                 text = article.summary,
-                fontSize = 14.sp,
-                color = Color.Gray,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                textAlign = TextAlign.Justify
             )
-            
-            Spacer(modifier = Modifier.height(8.dp))
-            
-            // Metadata
             Text(
-                text = "${article.readTime} min de lectura · ${article.date}",
-                fontSize = 12.sp,
-                color = Color.Gray
+                text = "${article.readTime} min de lectura · ${article.date}"
             )
         }
-        
-        // Thumbnail
         Box(
             modifier = Modifier
                 .size(80.dp)

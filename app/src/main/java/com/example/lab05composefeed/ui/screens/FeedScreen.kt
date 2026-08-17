@@ -41,7 +41,7 @@ fun FeedScreen (
     var searchQuery by rememberSaveable { mutableStateOf("")}
     var showShortReadsOnly by rememberSaveable { mutableStateOf(false) }
 
-    var applauseCount = 0
+    var applauseCount by rememberSaveable { mutableStateOf(0) }
 
     val filteredArticles = articles.filter { article ->
         val matchesTab = when (selectedTab) {

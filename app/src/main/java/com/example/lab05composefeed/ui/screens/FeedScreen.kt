@@ -12,10 +12,13 @@ package com.example.lab05composefeed.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lab05composefeed.data.ArticleRepository
+import com.example.lab05composefeed.ui.components.FeedTabs
 import com.example.lab05composefeed.ui.components.MediumArticle
 
 @Preview(showBackground = true)
@@ -24,11 +27,27 @@ fun FeedScreen (
     modifier: Modifier = Modifier
 ) {
     val articles = ArticleRepository.getList()
+    var selectedTab = "Para ti"
+
+    val visibleArticles = articles.filter { article ->
+        when (selectedTab) {
+            "Siguiendo" -> article.isAuthorFollowed
+            "Destacados" -> article.isFeatured
+            else -> true
+        }
+    }
     Column(
         modifier = modifier
     ) {
-        Row() { }
-        Row() { }
+        FeedTabs(
+            selectedTab = selectedTab,
+            onTabSelected = { selectedTab = it }
+        )
+        Row() {
+            TextButton(onClick = { }) {
+                Text("Aplaudir · 0")
+            }
+        }
         articles.forEachIndexed { index, article ->
             MediumArticle(
                 article

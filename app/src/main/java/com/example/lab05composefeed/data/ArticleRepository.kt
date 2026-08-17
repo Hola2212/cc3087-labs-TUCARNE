@@ -11,7 +11,9 @@ object ArticleRepository {
             readTime = 5,
             date = "05 may, 2024",
             circleColor = 0xFFda424f,
-            squareColor = 0xFFffddba
+            squareColor = 0xFFffddba,
+            isAuthorFollowed = true,
+            isFeatured = false
         ),
         Article(
             name = "Maria Sierra",
@@ -20,7 +22,9 @@ object ArticleRepository {
             readTime = 20,
             date = "15 mar, 2025",
             circleColor = 0xFF1598d3,
-            squareColor = 0xFFf25b89
+            squareColor = 0xFFf25b89,
+            isAuthorFollowed = false,
+            isFeatured = true
         ),
         Article(
             name = "Luis Chan",
@@ -29,7 +33,9 @@ object ArticleRepository {
             readTime = 10,
             date = "01 dic, 2022",
             circleColor = 0xFF00d756,
-            squareColor = 0xFFce7f22
+            squareColor = 0xFFce7f22,
+            isAuthorFollowed = true,
+            isFeatured = true
         )
     )
 }

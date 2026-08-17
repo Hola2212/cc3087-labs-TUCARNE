@@ -7,6 +7,9 @@
  * 2. Recibe un Modifier para que el contenedor padre tenga control sobre el posicionamiento y 
  *    espaciado externo del componente. Si el margen estuviera fijo adentro, no podríamos 
  *    reutilizar el componente en pantallas que requieran diferentes márgenes o alineaciones.
+ *
+ * 3.   En el contador local existe un cambio en el contador interno, pero no hay una
+ *      reconstrucción del composable, por lo que no es visible en pantalla.
  */
 package com.example.lab05composefeed.ui.screens
 
@@ -37,6 +40,8 @@ fun FeedScreen (
     var selectedTab by rememberSaveable { mutableStateOf("Para ti") }
     var searchQuery by rememberSaveable { mutableStateOf("")}
     var showShortReadsOnly by rememberSaveable { mutableStateOf(false) }
+
+    var applauseCount = 0
 
     val filteredArticles = articles.filter { article ->
         val matchesTab = when (selectedTab) {
@@ -74,8 +79,8 @@ fun FeedScreen (
 
         Row {
             Text("${filteredArticles.size} resultados")
-            TextButton(onClick = { }) {
-                Text("Aplaudir · 0")
+            TextButton(onClick = { applauseCount++ }) {
+                Text("Aplaudir · $applauseCount")
             }
         }
 

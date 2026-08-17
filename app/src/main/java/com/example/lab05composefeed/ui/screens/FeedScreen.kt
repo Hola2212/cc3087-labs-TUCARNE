@@ -12,9 +12,15 @@ package com.example.lab05composefeed.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lab05composefeed.data.ArticleRepository
@@ -27,14 +33,22 @@ fun FeedScreen (
     modifier: Modifier = Modifier
 ) {
     val articles = ArticleRepository.getList()
-    var selectedTab = "Para ti"
 
-    val visibleArticles = articles.filter { article ->
-        when (selectedTab) {
+    var selectedTab by rememberSaveable { mutableStateOf("Para ti") }
+    var searchQuery by rememberSaveable { mutableStateOf("")}
+    var showShortReadsOnly by rememberSaveable { mutableStateOf(false) }
+
+    val filteredArticles = articles.filter { article ->
+        val matchesTab = when (selectedTab) {
             "Siguiendo" -> article.isAuthorFollowed
             "Destacados" -> article.isFeatured
             else -> true
         }
+        val matchesSearch = searchQuery.isBlank() ||
+                article.title.contains(searchQuery, ignoreCase = true) ||
+                article.name.contains(searchQuery, ignoreCase = true)
+        val matchesLength = !showShortReadsOnly || article.readTime <= 5
+        matchesTab && matchesSearch && matchesLength
     }
     Column(
         modifier = modifier
@@ -43,15 +57,35 @@ fun FeedScreen (
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it }
         )
-        Row() {
+
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            label = { Text("Buscar por título o autor") }
+        )
+
+        Row {
+            Switch(
+                checked = showShortReadsOnly,
+                onCheckedChange = { showShortReadsOnly = it }
+            )
+            Text("Solo lecturas cortas")
+        }
+
+        Row {
+            Text("${filteredArticles.size} resultados")
             TextButton(onClick = { }) {
                 Text("Aplaudir · 0")
             }
         }
-        articles.forEachIndexed { index, article ->
-            MediumArticle(
-                article
-            )
+
+        if (filteredArticles.isEmpty()) {
+            Text("No se encontraron artículos")
+            Text("Cambia la pestaña, la búsqueda o el filtro.")
+        } else {
+            filteredArticles.forEach { article ->
+                MediumArticle(article)
+            }
         }
     }
 }

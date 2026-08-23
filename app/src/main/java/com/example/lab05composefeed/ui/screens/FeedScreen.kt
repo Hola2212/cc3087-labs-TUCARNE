@@ -119,3 +119,36 @@ fun FeedContent(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun FeedContentWithResultsPreview(){
+    FeedContent(
+        filteredArticles = ArticleRepository.getList().filter { article ->
+            article.title.contains("comida", ignoreCase = true)
+        },
+        searchQuery = "comida",
+        onSearchQueryChange = {},
+        showShortReadsOnly = false,
+        onShortReadsOnlyChange = {},
+        selectedTab = "Para ti",
+        onTabSelected = {},
+        applauseCount = 3,
+        onApplaud = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FeedContentWithoutResultsPreview(){
+    FeedContent(
+        filteredArticles = emptyList(),
+        searchQuery = "comida",
+        onSearchQueryChange = {},
+        showShortReadsOnly = false,
+        onShortReadsOnlyChange = {},
+        selectedTab = "Para ti",
+        onTabSelected = {},
+        applauseCount = 0,
+        onApplaud = {}
+    )
+}

@@ -31,7 +31,6 @@ import com.example.lab05composefeed.model.Article
 import com.example.lab05composefeed.ui.components.FeedTabs
 import com.example.lab05composefeed.ui.components.MediumArticle
 
-@Preview(showBackground = true)
 @Composable
 fun FeedScreen (
     modifier: Modifier = Modifier
@@ -56,14 +55,21 @@ fun FeedScreen (
         val matchesLength = !showShortReadsOnly || article.readTime <= 5
         matchesTab && matchesSearch && matchesLength
     }
-    Column(
+    FeedContent(
+        filteredArticles = filteredArticles,
+        searchQuery = searchQuery,
+        onSearchQueryChange = { searchQuery = it },
+        showShortReadsOnly = showShortReadsOnly,
+        onShortReadsOnlyChange = { showShortReadsOnly = it },
+        selectedTab = selectedTab,
+        onTabSelected = { selectedTab = it },
+        applauseCount = applauseCount,
+        onApplaud = { applauseCount++ },
         modifier = modifier
-    ) {
-
-    }
+    )
 }
 @Composable
-fun feedContent(
+fun FeedContent(
     filteredArticles: List<Article>,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,

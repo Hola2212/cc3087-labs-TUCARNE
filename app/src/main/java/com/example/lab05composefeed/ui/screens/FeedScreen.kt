@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lab05composefeed.data.ArticleRepository
+import com.example.lab05composefeed.model.Article
 import com.example.lab05composefeed.ui.components.FeedTabs
 import com.example.lab05composefeed.ui.components.MediumArticle
 
@@ -58,28 +59,45 @@ fun FeedScreen (
     Column(
         modifier = modifier
     ) {
+
+    }
+}
+@Composable
+fun feedContent(
+    filteredArticles: List<Article>,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    showShortReadsOnly: Boolean,
+    onShortReadsOnlyChange: (Boolean) -> Unit,
+    selectedTab: String,
+    onTabSelected: (String) -> Unit,
+    applauseCount: Int,
+    onApplaud: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
         FeedTabs(
             selectedTab = selectedTab,
-            onTabSelected = { selectedTab = it }
+            onTabSelected = onTabSelected
         )
 
         OutlinedTextField(
             value = searchQuery,
-            onValueChange = { searchQuery = it },
+            onValueChange = onSearchQueryChange,
             label = { Text("Buscar por título o autor") }
         )
 
         Row {
             Switch(
                 checked = showShortReadsOnly,
-                onCheckedChange = { showShortReadsOnly = it }
+                onCheckedChange = onShortReadsOnlyChange
             )
             Text("Solo lecturas cortas")
         }
 
         Row {
             Text("${filteredArticles.size} resultados")
-            TextButton(onClick = { applauseCount++ }) {
+            TextButton(onClick = onApplaud) {
                 Text("Aplaudir · $applauseCount")
             }
         }
@@ -94,3 +112,4 @@ fun FeedScreen (
         }
     }
 }
+

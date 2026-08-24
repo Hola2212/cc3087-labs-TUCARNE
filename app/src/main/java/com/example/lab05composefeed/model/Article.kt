@@ -7,5 +7,7 @@ data class Article(
     val readTime: Int,
     val date: String,
     val circleColor: Long,
-    val squareColor: Long
+    val squareColor: Long,
+    val isAuthorFollowed: Boolean,
+    val isFeatured: Boolean
 )
